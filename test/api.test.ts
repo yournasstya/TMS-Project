@@ -35,12 +35,12 @@ describe('API Tests - Posts', () => {
         expect(recievedPost.data).toEqual(expect.objectContaining(expectedPost1));
     });
 
-    test('User should get a 404 error when trying to fetch a post with a non-existing Id', async () => {
+    test('User should get a 404 error when trying to get a post with a non-existing Id', async () => {
         const receivedStatusCode = await getPostByID(nonExistingPostId);
         expect(receivedStatusCode.status).toBe(404);
     });
 
-    // Пользователь может получить все посты для конкретного пользователя по userId
+    test.skip('A user can get all posts for a specific user by userId', async () => {});
 
     test('User should receive an empty array when trying to get posts for a non-existent user', async () => {
         const recievedAllPostsById = await getAllPostByUserID(nonExistingUserId);
@@ -49,21 +49,21 @@ describe('API Tests - Posts', () => {
         expect(recievedAllPostsById.data).toEqual([]); 
     });
 
-    test('User can get all comments for a post by its Id', async () => {
+    test('User can get all comments on a post by its Id', async () => {
         const receivedAllCommentsById = await getAllCommentsbyID(postId);
 
         expect(receivedAllCommentsById.status).toBe(200); 
         expect(Array.isArray(receivedAllCommentsById.data)).toBe(true); 
     });
 
-    test('User will receive an empty array when trying to get comments for a non-existent post', async () => {
+    test('User will get an empty array when trying to get comments for a non-existent post', async () => {
         const receivedEmptyArray = await getAllCommentsbyID(nonExistingPostId);
 
         expect(receivedEmptyArray.status).toBe(200); 
         expect(receivedEmptyArray.data).toEqual([]);
     });
 
-    test('User should be able to create a new post', async () => {
+    test('User can create a new post', async () => {
         const newPost = await createPost(dataNewPost)
 
         expect(newPost.status).toBe(201);
@@ -71,14 +71,14 @@ describe('API Tests - Posts', () => {
         expect(newPost.data.title).toBe('Title');
     });
 
-    test('User should be able to update the title of an existing post', async () => {
+    test('User can update the title of an existing post', async () => {
         const updatedTitle = await updatedTitlePost(postId, dataUpdatePost);
 
         expect(updatedTitle.status).toBe(200); 
         expect(updatedTitle.data.title).toBe('Updated title'); 
     });
 
-    test('User should be able to delete a post by Id', async () => {
+    test('User can delete a post by Id', async () => {
         const response = await deletePostById(postId);
         expect(response.status).toBe(200); 
     });
