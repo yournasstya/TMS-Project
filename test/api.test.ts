@@ -1,143 +1,141 @@
-import { get, post, put, deleteData } from "../api/api"
+import { deletePostById } from "../api/endpoints/deleteEndpoint";
+import { createAlbum, createPost } from "../api/endpoints/postEndpoint";
+import { updatedTitlePost } from "../api/endpoints/putEndpoint";
 import { IAlbumModel } from "../data/models/albumModel";
 import { dataNewAlbum, expectedAlbum1, expectedAlbumsForUser1 } from "../data/testData/expectedAlbumData";
 import { expectedPhoto1 } from "../data/testData/expectedPhotoData";
 import { dataNewPost, dataUpdatePost, expectedPost1 } from "../data/testData/expectedPostData";
+import { nonExistingPostId, postId, nonExistingUserId, albumId, userId, photoId } from "../utils/testDataUtils";
+import { 
+    getAlbumByID, 
+    getAllAlbumByUserID, 
+    getAllAlbums, 
+    getAllCommentsbyID, 
+    getAllPhotosByAlbumID, 
+    getAllPostByUserID, 
+    getAllPosts, 
+    getPhotoByID, 
+    getPostByID 
+} from "../api/endpoints/getEndpoint";
+
 
 describe('API Tests - Posts', () => {
-
     test('User can get all posts', async () => {
-        const response = await get("/posts");
+        const recievedAllPosts = await getAllPosts();
 
-        expect(response.status).toBe(200);
-        expect(response.data.length).toEqual(100);
+        expect(recievedAllPosts.status).toBe(200);
+        expect(recievedAllPosts.data.length).toEqual(100);
 
     });
 
     test('User can get a post by Id', async () => {
-        const postId: number = 1;
-        const response = await get(`/posts/${postId}`);
+        const recievedPost = await getPostByID(postId);
 
-        expect(response.status).toBe(200);
-        expect(response.data).toEqual(expect.objectContaining(expectedPost1));
+        expect(recievedPost.status).toBe(200);
+        expect(recievedPost.data).toEqual(expect.objectContaining(expectedPost1));
     });
 
     test('User should get a 404 error when trying to fetch a post with a non-existing Id', async () => {
-        const nonExistingPostId = 9999;
-        const response = await get(`/posts/${nonExistingPostId}`);
-      
-        expect(response.status).toBe(404);
+        const receivedStatusCode = await getPostByID(nonExistingPostId);
+        expect(receivedStatusCode.status).toBe(404);
     });
 
     // Пользователь может получить все посты для конкретного пользователя по userId
 
     test('User should receive an empty array when trying to get posts for a non-existent user', async () => {
-        const userId = 999; 
-        const response = await get(`/posts?userId=${userId}`);
+        const recievedAllPostsById = await getAllPostByUserID(nonExistingUserId);
 
-        expect(response.status).toBe(200); 
-        expect(response.data).toEqual([]); 
+        expect(recievedAllPostsById.status).toBe(200); 
+        expect(recievedAllPostsById.data).toEqual([]); 
     });
-
 
     test('User can get all comments for a post by its Id', async () => {
-        const postId = 1; 
-        const response = await get(`/posts/${postId}/comments`);
+        const receivedAllCommentsById = await getAllCommentsbyID(postId);
 
-        expect(response.status).toBe(200); 
-        expect(Array.isArray(response.data)).toBe(true); 
+        expect(receivedAllCommentsById.status).toBe(200); 
+        expect(Array.isArray(receivedAllCommentsById.data)).toBe(true); 
     });
 
-
     test('User will receive an empty array when trying to get comments for a non-existent post', async () => {
-        const postId: number = 999; 
-        const response = await get(`/posts/${postId}/comments`);
+        const receivedEmptyArray = await getAllCommentsbyID(nonExistingPostId);
 
-        expect(response.status).toBe(200); 
-        expect(response.data).toEqual([]);
+        expect(receivedEmptyArray.status).toBe(200); 
+        expect(receivedEmptyArray.data).toEqual([]);
     });
 
     test('User should be able to create a new post', async () => {
-        const postData = await post(`/posts`, dataNewPost)
+        const newPost = await createPost(dataNewPost)
 
-        expect(postData.status).toBe(201);
-        expect(postData.data.userId).toBe(1); 
-        expect(postData.data.title).toBe('Test title');
+        expect(newPost.status).toBe(201);
+        expect(newPost.data.userId).toBe(1); 
+        expect(newPost.data.title).toBe('Title');
     });
 
     test('User should be able to update the title of an existing post', async () => {
-        const postId: number = 1;
-        const updatedTitle = await put(`/posts/${postId}`, dataUpdatePost);
+        const updatedTitle = await updatedTitlePost(postId, dataUpdatePost);
 
         expect(updatedTitle.status).toBe(200); 
         expect(updatedTitle.data.title).toBe('Updated title'); 
     });
 
     test('User should be able to delete a post by Id', async () => {
-        const postId = 1;
-        const response = await deleteData(`/posts/${postId}`);
-
+        const response = await deletePostById(postId);
         expect(response.status).toBe(200); 
     });
 });
 
 
 describe('API Tests - Albums', () => {
-
     test('User can get all albums', async () => {
-        const response = await get(`/albums`);
+        const response = await getAllAlbums();
+
         expect(response.status).toBe(200);
         expect(response.data).toHaveLength(100);
     });
 
     test('User can get an album by Id', async () => {
-        const albumId = 1;
-        const response = await get(`/albums/${albumId}`);
+        const expectedAlbumById = await getAlbumByID(albumId);
         const expectedAlbum: IAlbumModel = expectedAlbum1;
 
-        expect(response.status).toBe(200);
-        expect(response.data).toEqual(expectedAlbum)
+        expect(expectedAlbumById.status).toBe(200);
+        expect(expectedAlbumById.data).toEqual(expectedAlbum)
     });
 
     test('User can get all albums of a specific user by userId', async () => {
-        const userId = 1;
-        const response = await get(`/albums?userId=${userId}`);
+        const expectedAlbumByUserId = await getAllAlbumByUserID(userId);
         const expectedAlbum: IAlbumModel[] = expectedAlbumsForUser1;
 
-        expect(response.status).toBe(200);
-        expect(response.data).toEqual(expectedAlbum)
+        expect(expectedAlbumByUserId.status).toBe(200);
+        expect(expectedAlbumByUserId.data).toEqual(expectedAlbum)
     });
 
     test('User can add a new album', async () => {
-        const response = await post(`/albums`, dataNewAlbum);
+        const newAlbum = await createAlbum(dataNewAlbum);
 
-        expect(response.status).toBe(201);
-        expect(response.data.userId).toBe(dataNewAlbum.userId);
-        expect(response.data.title).toBe(dataNewAlbum.title);
+        expect(newAlbum.status).toBe(201);
+        expect(newAlbum.data.userId).toBe(dataNewAlbum.userId);
+        expect(newAlbum.data.title).toBe(dataNewAlbum.title);
     });
 });
 
 
 describe('API Tests - Photos', () => {
-
     test('User can get all photos in an album by album Id', async () => {
-        const albumId = 1; // Предположим albumId = 1
-        const response = await get(`/photos?albumId=${albumId}`);
+        const receivedAllPhotosById = await getAllPhotosByAlbumID(albumId);
+        expect(receivedAllPhotosById.status).toBe(200);
 
-        expect(response.status).toBe(200);
-        for (const photo of response.data) {
+        for (const photo of receivedAllPhotosById.data) {
             expect(photo.albumId).toBe(albumId);
         }
     });
 
     test('User can get a specific photo by Id', async () => {
-        const photoId = 1; // Предположим photoId = 1
-        const response = await get(`/photos/${photoId}`);
-        expect(response.status).toBe(200);
-        expect(response.data.id).toBe(expectedPhoto1.id);
+        const recievedPhotoById = await getPhotoByID(photoId);
+
+        expect(recievedPhotoById.status).toBe(200);
+        expect(recievedPhotoById.data.id).toBe(expectedPhoto1.id);
     });
 
     test.skip('User can upload a new photo', async () => {});
     test.skip('User can upload a new photo without specifying albumId', async () => {});
-
 });

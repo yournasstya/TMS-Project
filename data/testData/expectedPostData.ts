@@ -10,15 +10,15 @@ export const expectedPost1: IPostModel = {
 export const dataNewPost: IPostModel = {
     userId: 1,
     id: 1,
-    title: "Test title",
-    body: "Test body"
+    title: "Title",
+    body: "Body"
 }
 
 export const dataUpdatePost: IPostModel = {
     userId: 1,
     id: 1,
     title: "Updated title",
-    body: "Updated title"
+    body: "Updated body"
 }
 
 export const expectedPostsForUserId1: IPostModel[] = [
