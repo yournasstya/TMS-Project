@@ -40,10 +40,26 @@ All tests are placed in separate branches.<br>
  ├── package.json
  ├── tsconfig.json                  
 ```
-UI tests 
+# UI tests 
 ```
+ ├── cypress/
+     ├── data/
+         └── enums/
+     ├── downloads/
+     ├── e2e/
+         └── tests/
+             └── onliner.cy.ts
+     ├── helpers/
+     ├── pages/
+         └── frames/
+     ├── support/
+ ├── .gitignore
+ ├── cypress.config.ts
+ ├── package.json
+ ├── tsconfig.json                                     
+
 ```
-The following folders/files were added to the `.gitignore` file: `.vscode`, `node_modules/`, and `package-lock.json`.<br>
+The following folders/files were added to the `.gitignore` file: `node_modules/` and `package-lock.json`.<br>
 
 # Commands:
 Run tests `npm run`
