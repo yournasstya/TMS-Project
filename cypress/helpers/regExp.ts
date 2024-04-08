@@ -1,0 +1,1 @@
+export const regExpCommasFilter: RegExp = /,/g;

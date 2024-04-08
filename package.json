@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@types/node": "^20.12.4",
+    "cypress": "^13.7.2",
+    "cypress-xpath": "^2.0.1",
+    "typescript": "^5.4.4"
+  }
+}
