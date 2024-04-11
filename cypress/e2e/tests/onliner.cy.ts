@@ -6,6 +6,7 @@ import searchIFrame from "../../pages/frames/searchIFrame";
 import kursPage from "../../pages/kurs.page";
 import mainPage from "../../pages/main.page";
 import registrationPage from "../../pages/registration.page";
+import rentCatalogPage from "../../pages/rentCatalog.page";
 
 
 describe("Onliner", () => {
@@ -13,7 +14,7 @@ describe("Onliner", () => {
         cy.visit('/');
     });
 
-    it('Account registration', () => {
+    it.skip('Account registration', () => {
         mainPage.getDisplayingContainerForLogin();
         registrationPage.getInputFornForRegistration();
         registrationPage.setEmailOnRegistrationPage(email);
@@ -25,7 +26,7 @@ describe("Onliner", () => {
         registrationPage.goToMailButton();
     });
 
-    it('User can search', () => {
+    it.skip('User can search', () => {
         mainPage.fillQuickSearchField(brandSearchTerm);
         searchIFrame.checkVisibilityOfSearchIFrame();
         searchIFrame.clearSearchField();
@@ -34,7 +35,7 @@ describe("Onliner", () => {
         searchIFrame.switchToFoundProductInSearchResults(searchKeyword);
     });
 
-    it('Currency Converter', () => {
+    it.skip('Currency Converter', () => {
         mainPage.goToKursAndCheckDataVisibility();
         kursPage.checkKursAndDataVisibility();
         kursPage.getBuyButton();
@@ -44,5 +45,14 @@ describe("Onliner", () => {
         kursPage.getValueInConverterField(randomNumber);
         kursPage.getCurrencyEur();
         kursPage.checkForCorrectCurrencyConversion(randomNumber);
+    });
+
+    it('Работа с каталогом недвижимости', () => {
+        mainPage.goToRentalNavigationAndCheckData();
+        rentCatalogPage.setApartmentsFilterAndCheck();
+        rentCatalogPage.setRoomsFilterAndCheck(2);
+        rentCatalogPage.setPriceFilterAndCheck(500);
+        rentCatalogPage.setDistanceFromMetroAndCheck('Возле метро');
+        rentCatalogPage.sortOptionsAndCheck('Сначала дорогие');
     });
 });

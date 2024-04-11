@@ -87,6 +87,7 @@ class KursPage {
     checkForCorrectCurrencyConversion(filter: number) {
         this.getCurrencyConversionResult.invoke('text').then((text) => {
             const convertedAmmount: number = +text.replace(regExpCommasFilter, '.');
+            
         this.getEuroExchangeRate.invoke('text').then((text) => {
             const bankSellEur: number = +text.replace(regExpCommasFilter, '.');
             expect(convertedAmmount.toFixed(3)).to.equal((bankSellEur * filter).toFixed(3));});    
