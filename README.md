@@ -60,4 +60,5 @@ All tests are placed in separate branches.<br>
 The following folders/files were added to the `.gitignore` file: `node_modules/` and `package-lock.json`.<br>
 
 # Commands:
-Run tests `npm run`
+Run Unit and API tests `npm run`<br>
+Run UI tests `npx cypress open`
