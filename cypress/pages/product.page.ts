@@ -1,31 +1,27 @@
-import { SortingTypes } from "../data/enums/sortingType";
-
 class ProductPage {
-    private offersLinkLocator = 'a:has(span[itemprop="offerCount"])';
-    private offersSortingSelectLocator = 'select.input-style__real';
-    private offersListLoaderLocator = 'div.offers-list_animated';
+    private compareButtonLocator: string = "//a[@class='compare-button__sub compare-button__sub_main']";
+    private inputComparisonLocator: string = "//li[@id='product-compare-control']/label/span/span[@class='i-checkbox__faux']";
 
-
-    private get offerLink() {
-        return cy.get(this.offersLinkLocator);
+    private get inputComparison() {
+        return cy.xpath(this.inputComparisonLocator);
     }
 
-    private get offersSortingSelect() {
-        return cy.get(this.offersSortingSelectLocator);
-    }
-
-    private get offersListLoader() {
-        return cy.get(this.offersListLoaderLocator, { timeout: 10000 });
+    private get compareButton() {
+        return cy.xpath(this.compareButtonLocator);
     }
 
 
-    switchToOffers() {
-        this.offerLink.click();
+    clickInputComparisonAndcheckCompare() {
+        this.inputComparison.click();
+        this.compareButton.should('be.visible');
     }
 
-    selectOfferSortingType(sortingType: SortingTypes) {
-        this.offersSortingSelect.select(sortingType);
-        this.offersListLoader.should('not.exist');
+    returnToCatalogPage() {
+        cy.go('back');
+    }
+
+    clickcompareButton() {
+        this.compareButton.click();
     }
 }
 

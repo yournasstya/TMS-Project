@@ -8,10 +8,6 @@ class SearchIFrame {
         return cy.getIFrameBody(this.searchIFrameLocator);
     }
 
-    // private searchProductTitleLink() {
-    //     return cy.xpath(this.searchProductTitleLinkLocator);
-    // }
-
 
     checkVisibilityOfSearchIFrame() {
         this.getSearchIFrame.should('be.visible');
@@ -27,8 +23,8 @@ class SearchIFrame {
 
     verifyProductIsVisible(searchKeyword: string) {
         this.getSearchIFrame.each(($title) => {
-                cy.wrap($title).should('be.visible').and('contain.text', searchKeyword);
-            });
+            cy.wrap($title).should('be.visible').and('contain.text', searchKeyword);
+        });
     }
 
     switchToFoundProductInSearchResults(searchKeyword: string) {
