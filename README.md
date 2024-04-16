@@ -2,9 +2,7 @@
 Test framework includes unit, API and UI (e2e) tests.
 
 # Frameworks:
-Unit tests - Jest<br>
-API tests - Jest + Axios<br>
-E2E tests - Cypress<br>
+Unit tests - Jest | API tests - Jest + Axios | E2E tests - Cypress<br>
 
 # Project Structure:
 All tests are placed in separate branches.<br>
