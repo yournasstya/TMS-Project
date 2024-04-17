@@ -40,8 +40,6 @@ describe('API Tests - Posts', () => {
         expect(receivedStatusCode.status).toBe(404);
     });
 
-    test.skip('A user can get all posts for a specific user by userId', async () => {});
-
     test('User should receive an empty array when trying to get posts for a non-existent user', async () => {
         const recievedAllPostsById = await getAllPostByUserID(nonExistingUserId);
 
@@ -135,7 +133,4 @@ describe('API Tests - Photos', () => {
         expect(recievedPhotoById.status).toBe(200);
         expect(recievedPhotoById.data.id).toBe(expectedPhoto1.id);
     });
-
-    test.skip('User can upload a new photo', async () => {});
-    test.skip('User can upload a new photo without specifying albumId', async () => {});
 });
