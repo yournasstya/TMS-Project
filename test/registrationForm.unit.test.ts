@@ -1,8 +1,4 @@
-import { 
-    invalidAgeErr, 
-    invalidPasswordErr, 
-    invalidTermsAgreementErr, 
-    invalidUsernameErr } from '../data/constants/errors';
+import { invalidAgeErr, invalidPasswordErr, invalidUsernameErr } from '../data/constants/errors';
 import { RegistrationForm } from '../src/registrationForm';
 
 describe('Unit tests for registration form', () => {
