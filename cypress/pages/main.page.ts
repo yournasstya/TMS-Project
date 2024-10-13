@@ -9,6 +9,7 @@ class MainPage {
     private supportLinkLocator: string = "//a[contains(text(),'Поддержка пользователей')]";
     private catalogLinkLocator: string = "//a[@class='b-main-navigation__link']/span[contains(text(),'Каталог')]";
 
+    
     private get getSearchField() {
         return cy.xpath(this.searchFieldLocator);
     }

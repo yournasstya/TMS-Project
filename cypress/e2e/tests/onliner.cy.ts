@@ -30,12 +30,6 @@ describe("Onliner - the user is not logged in", () => {
         cy.visit('/');
     });
 
-    it('User login with valid data', () => {
-        mainPage.openLoginPage();
-        loginPage.logIn(emailForLogIn, passwordForLogIn);
-        loginPage.waitCapchaFrameAppears();
-    });
-
     it('User can search', () => {
         mainPage.fillQuickSearchField(brandSearchTerm);
         searchIFrame.checkVisibilityOfSearchIFrame();
@@ -43,6 +37,12 @@ describe("Onliner - the user is not logged in", () => {
         searchIFrame.performSearchInModalIFrame(searchKeyword);
         searchIFrame.verifyProductIsVisible(searchKeyword);
         searchIFrame.switchToFoundProductInSearchResults(searchKeyword);
+    });
+
+    it('User login with valid data', () => {
+        mainPage.openLoginPage();
+        loginPage.logIn(emailForLogIn, passwordForLogIn);
+        loginPage.waitCapchaFrameAppears();
     });
 
     it('User can register an account', () => {
@@ -120,6 +120,3 @@ describe("Onliner - user is logged in", () => {
 
     it.skip('User can place an order (before payment)', () => {});
 });
-
-
-
